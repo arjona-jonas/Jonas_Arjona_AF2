@@ -100,13 +100,15 @@ top_75_pl=spotify_data[spotify_data['pl_quantil']=='Top_75%']
 
 top_75_pl=top_75_pl.groupby('release_year')['track_name'].count().reset_index()
 top_75_pl.rename(columns={'track_name':'num_of_tracks'},inplace=True)
+top_75_pl['prop_of_tracks']=(top_75_pl['num_of_tracks']/top_75_pl['num_of_tracks'].sum())*100
+
 
 #Como usamos pd.qcut, a distribuição é de 25% pra cada categoria da variável criada
 
 print('\nAgrupamos as músicas pelo número de playlists que elas aparecem em 4 quartis. Usando pd.qcut a distribuição é de 25% dos dados pra cada categoria')
 print('\nQual a distribuição dos anos dentro da categoria "Top_75%"?')
 print(top_75_pl.sort_values('num_of_tracks',ascending=False))
-print('\nAs músicas dos anos 2020+ compõe mais o conjunto "Top_75%", ou seja, estão em mais playlists do que as dos anos 2020 abaixo.')
+print('\nAs músicas dos anos 2020+ compõe mais o conjunto "Top_75%" (cerca de 1/4 das entradas), ou seja, estão em mais playlists do que as dos anos 2020 abaixo. Estranhamente 2023 não aparece nesse agrupamento, indicando que apesar de ter muitas músicas lançadas, a maioria delas não faz parte de muitas playlists.')
 
 # Para charts, usamos a média como valor diferenciador e categorizamos as musicas
 # com uma função auxiliar aplicada com .apply
@@ -134,8 +136,7 @@ print('Cerca de 1/3 das músicas estão em mais charts do que a média!')
 
 print('\nQual a distribuição dos anos dentro da categoria "Above average"?')
 print(above_avg_ch.sort_values('num_of_tracks',ascending=False))
-print('\nAs músicas dos anos 2020+ compõe mais o conjunto "Above average", ou seja, estão em mais charts do que as dos anos 2020 abaixo.')
-
+print('\nAs músicas dos anos 2020+ compõe mais o conjunto "Above average" (cerca de 60%), ou seja, estão em mais charts do que as dos anos 2020 abaixo. Por que será que 2023 aparece aqui mas nao na outra visualização?')
 # Gráfico: número de músicas em "playlists" do Spotify por ano
 df_plot=spotify_data[(spotify_data['release_year']>=2010)&(spotify_data['pl_quantil']=='Top_75%')]
 
